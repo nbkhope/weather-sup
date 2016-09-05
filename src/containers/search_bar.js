@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+// Needed to make a container component (connect react to redux)
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+// Action creator
+import { fetchWeather } from '../actions/index'
 
-export default
 class SearchBar extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +16,7 @@ class SearchBar extends Component {
 
     // Bind the correct context for the *this* keyword
     this.onInputChange = this.onInputChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   onInputChange(event) {
@@ -20,6 +25,11 @@ class SearchBar extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
+
+    this.props.fetchWeather(this.state.term);
+
+    // clear the input field
+    this.setState({ term: '' });
   }
 
   render() {
@@ -41,3 +51,12 @@ class SearchBar extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  // fetchWeather will be available as prop inside SearchBar component
+  return bindActionCreators({ fetchWeather }, dispatch);
+}
+
+// Use null for first argument because this container doesn't
+// care about application state
+export default connect(null, mapDispatchToProps)(SearchBar);
