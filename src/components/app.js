@@ -7,7 +7,9 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        {"What's up, weather?"}
+        <div className="text-xs-center">
+          <h1>{"What's up, weather?"}</h1>
+        </div>
         <SearchBar />
         <WeatherList />
       </div>
